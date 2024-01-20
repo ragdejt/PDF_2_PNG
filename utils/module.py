@@ -7,6 +7,8 @@ import fitz
 from pathlib import Path
 from rich import print
 from tqdm import tqdm
+from utils.troubleshooting import *
+from utils.ascii_text import *
 #--------------------------------------------------------------------------------------------------#
 # Variables.                                                                                       #
 #--------------------------------------------------------------------------------------------------#
@@ -29,23 +31,13 @@ def create_directory():
 # Date / Time.                                                                                     #
 #--------------------------------------------------------------------------------------------------#
 def date_time():
-    print(time.strftime(f"[%H:%M:%S] - [%d/%m/%Y]").center(100, "-"))
+    print(time.strftime(DATE_TIME).center(100, "-"))
     input("[Press ENTER to continue]".center(100, "-"))
 #--------------------------------------------------------------------------------------------------#
 # List PDF folder.                                                                                 #
 #--------------------------------------------------------------------------------------------------#
 def list_pdf_folder():
-    print(
-        """[green]
-██████╗ ██████╗ ███████╗    ███████╗ ██████╗ ██╗     ██████╗ ███████╗██████╗ 
-██╔══██╗██╔══██╗██╔════╝    ██╔════╝██╔═══██╗██║     ██╔══██╗██╔════╝██╔══██╗
-██████╔╝██║  ██║█████╗      █████╗  ██║   ██║██║     ██║  ██║█████╗  ██████╔╝
-██╔═══╝ ██║  ██║██╔══╝      ██╔══╝  ██║   ██║██║     ██║  ██║██╔══╝  ██╔══██╗
-██║     ██████╔╝██║         ██║     ╚██████╔╝███████╗██████╔╝███████╗██║  ██║
-╚═╝     ╚═════╝ ╚═╝         ╚═╝      ╚═════╝ ╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝
-[/]"""
-    )
-    print("\n[List PDF folder]\n")
+    print(PDF_FOLDER)
     for i, dir in enumerate(os.listdir(pdf_folder), start=1):
         print(f"[{i}]:", f"[green]{dir}[/]")
     date_time()
@@ -53,17 +45,7 @@ def list_pdf_folder():
 # List PNG folder.                                                                                 #
 #--------------------------------------------------------------------------------------------------#
 def list_png_folder():
-    print(
-        """[green]
-  ██████╗ ███╗   ██╗ ██████╗     ███████╗ ██████╗ ██╗     ██████╗ ███████╗██████╗ 
-  ██╔══██╗████╗  ██║██╔════╝     ██╔════╝██╔═══██╗██║     ██╔══██╗██╔════╝██╔══██╗
-  ██████╔╝██╔██╗ ██║██║  ███╗    █████╗  ██║   ██║██║     ██║  ██║█████╗  ██████╔╝
-  ██╔═══╝ ██║╚██╗██║██║   ██║    ██╔══╝  ██║   ██║██║     ██║  ██║██╔══╝  ██╔══██╗
-  ██║     ██║ ╚████║╚██████╔╝    ██║     ╚██████╔╝███████╗██████╔╝███████╗██║  ██║
-  ╚═╝     ╚═╝  ╚═══╝ ╚═════╝     ╚═╝      ╚═════╝ ╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝                                                                                  
-[/]"""
-    )
-    print("\n[List PNG folder]\n")
+    print(PNG_FOLDER)
     for i, dir in enumerate(os.listdir(png_folder), start=1):
         print(f"[{i}]:", f"[green]{dir}[/]")
     date_time()
@@ -72,26 +54,16 @@ def list_png_folder():
 #--------------------------------------------------------------------------------------------------#
 def pdf_2_png():
     try:
-        print(
-            """
-  ██████╗ ██████╗ ███████╗                ██████╗                 ██████╗ ███╗   ██╗ ██████╗ 
-  ██╔══██╗██╔══██╗██╔════╝                ╚════██╗                ██╔══██╗████╗  ██║██╔════╝ 
-  ██████╔╝██║  ██║█████╗                   █████╔╝                ██████╔╝██╔██╗ ██║██║  ███╗
-  ██╔═══╝ ██║  ██║██╔══╝                  ██╔═══╝                 ██╔═══╝ ██║╚██╗██║██║   ██║
-  ██║     ██████╔╝██║         ███████╗    ███████╗    ███████╗    ██║     ██║ ╚████║╚██████╔╝
-  ╚═╝     ╚═════╝ ╚═╝         ╚══════╝    ╚══════╝    ╚══════╝    ╚═╝     ╚═╝  ╚═══╝ ╚═════╝                                                                                           
-    """
-        )
-        print("\n[PDF_2_PNG]\n")
+        print(PDF_2_PNG)
         pdf_name = str(input("[Enter the name of the PDF you want to convert]:"))
         pdf_path = pdf_folder / (pdf_name + ".pdf")
         png_path = png_folder / (pdf_name)
         if os.path.exists(pdf_path):
             png_path.mkdir()
             file = fitz.open(pdf_path) 
-            for page_num in tqdm(range(file.page_count)): # Iterate over all pages in the PDF file
-                page = file[page_num] # Get the current page
-                image = page.get_pixmap() # Render the page into an image
+            for page_num in tqdm(range(file.page_count)):
+                page = file[page_num]
+                image = page.get_pixmap()
                 image_path = os.path.join(png_path , f"Pagina_{page_num + 1}.png")
                 image.save(image_path)
             print(
@@ -101,37 +73,26 @@ def pdf_2_png():
         else:
             print("[Error]: File not found")
     except FileExistsError:
-        pass
+        print(FILE_EXISTS_ERROR)
+
 #--------------------------------------------------------------------------------------------------#
 # Menu.                                                                                            #
 #--------------------------------------------------------------------------------------------------#
 def menu():
     while True:
-        print(
-            """[green]
-  ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
-  ████╗ ████║██╔════╝████╗  ██║██║   ██║
-  ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
-  ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
-  ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
-  ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ 
-    [/]"""
-        )
-        print(
-            "\n[Menu Principal]\n"
-            "[Enter one of the available options]:\n"
-            "[0]: [green]Exit[/]\n"
-            "[1]: [green]List PDF folder[/]\n"
-            "[2]: [green]List PNG folder[/]\n"
-            "[3]: [green]PDF_2_PNG[/]\n"        
-        )
-        menu_input = int(input("[Your answer]: "))
-        match menu_input:
-            case 0:
-                exit()
-            case 1:
-                list_pdf_folder()
-            case 2:
-                list_png_folder()
-            case 3:
-                pdf_2_png()
+        try:
+            print(MENU)
+            menu_input = int(input("[Your answer]: "))
+            match menu_input:
+                case 0:
+                    exit()
+                case 1:
+                    list_pdf_folder()
+                case 2:
+                    list_png_folder()
+                case 3:
+                    pdf_2_png()
+                case _:
+                    print(VALUE_ERROR)
+        except ValueError:
+            print(VALUE_ERROR)
