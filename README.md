@@ -3,9 +3,42 @@
 ***`Author` Ragdejt***
 
 ***`Date Created` 20/01/2024***
+#
+***`Description`***
 
-***`Description` This script comes with the purpose of***
+This script is designed to convert PDF files into PNG images.
+#
+The script defines several constants at the top, such as:
 
+- DATE_TIME
+- MODULE_NOT_FOUND_ERROR
+- FILE_NOT_FOUND_ERROR
+- FILE_EXISTS_ERROR
+- VALUE_ERROR
+- PERMISSION_ERROR
+- SYNTAX_ERROR
+- INDENTATION_ERROR
+- NAME_ERROR
+- TYPE_ERROR
+- INDEX_ERROR
+- KEY_ERROR
+- ATTRIBUTE_ERROR
+- ZERO_DIVISION_ERROR
+- IMPORT_ERROR
+
+Which are used throughout the script to provide clear and consistent error messages and prompts to the user.
+#
+The `menu()` function displays a menu of options to the user and waits for them to enter a valid option. If the user enters an invalid option, the script will display an error message and prompt the user to try again. If the user enters the option to exit the program (0), the script will exit. Otherwise, the script will call the appropriate function based on the user's selection.
+#
+The `create_directory()` function creates the necessary directories for the script to function. It creates a script directory, a PDF directory, and a PNG directory within the script directory.
+#
+The `date_time()` function prints the current date and time in a formatted manner and prompts the user to press ENTER to continue.
+#
+The `list_pdf_folder()` function lists all the PDF files present in the PDF directory along with their respective numbers for user reference.
+#
+The `list_png_folder()` function lists all the PNG files present in the PNG directory along with their respective numbers for user reference.
+#
+The `pdf_2_png()` function is designed to convert a PDF file into PNG images. It prompts the user to enter the name of the PDF file they wish to convert. It then checks if the file exists in the PDF directory. If it does, it creates a directory with the same name in the PNG directory and proceeds to convert each page of the PDF into a PNG image, saving them in the newly created directory. If the file does not exist, it prints an error message.
 #
 
 # Security Notes
@@ -184,17 +217,11 @@
 
 This script requires Python 3 and the following libraries:  
 
-* import os
+* fitz (pymupdf)
 
-* import time
+* rich
 
-* import fitz
-
-* from pathlib import Path
-
-* from rich import print
-
-* from tqdm import tqdm
+* tqdm
 
 # Repository
 
