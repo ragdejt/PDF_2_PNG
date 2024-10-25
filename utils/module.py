@@ -1,53 +1,39 @@
-#--------------------------------------------------------------------------------------------------#
-# Import necessary libraries.                                                                      #
-#--------------------------------------------------------------------------------------------------#
+# Import necessary libraries.
 import os
 import time
 import fitz
 from pathlib import Path
 from rich import print
 from tqdm import tqdm
-from utils.troubleshooting import *
+from utils.troubleshooting import DATE_TIME
 from utils.ascii_text import *
-#--------------------------------------------------------------------------------------------------#
-# Path's                                                                                           #
-#--------------------------------------------------------------------------------------------------#
+# Path's 
 user_path = Path.home()
 script_path = user_path / ("PDF_2_PNG")
 png_folder = script_path / ("PNG")
 pdf_folder = script_path / ("PDF")
-#--------------------------------------------------------------------------------------------------#
-# Create directory                                                                                 #
-#--------------------------------------------------------------------------------------------------#
+# Create directory                                                                                 
 def create_directory():
     script_path.mkdir(exist_ok=True)
     png_folder.mkdir(exist_ok=True)
     pdf_folder.mkdir(exist_ok=True)
-#--------------------------------------------------------------------------------------------------#
-# Date / Time.                                                                                     #
-#--------------------------------------------------------------------------------------------------#
+# Date / Time.                                                                                     
 def date_time():
     print(time.strftime(DATE_TIME).center(100, "-"))
     input("[Press ENTER to continue]".center(100, "-"))
-#--------------------------------------------------------------------------------------------------#
-# List PDF folder.                                                                                 #
-#--------------------------------------------------------------------------------------------------#
+# List PDF folder.                                                                                 
 def list_pdf_folder():
     print(PDF_FOLDER)
     for i, dir in enumerate(os.listdir(pdf_folder), start=1):
         print(f"[{i}]:", f"[green]{dir}[/]")
     date_time()
-#--------------------------------------------------------------------------------------------------#
-# List PNG folder.                                                                                 #
-#--------------------------------------------------------------------------------------------------#
+# List PNG folder.                                                                                 
 def list_png_folder():
     print(PNG_FOLDER)
     for i, dir in enumerate(os.listdir(png_folder), start=1):
         print(f"[{i}]:", f"[green]{dir}[/]")
     date_time()
-#--------------------------------------------------------------------------------------------------#
-# PDF_2_PNG.                                                                                       #
-#--------------------------------------------------------------------------------------------------#
+# PDF_2_PNG.                                                                                       
 def pdf_2_png():
     try:
         print(PDF_2_PNG)
@@ -69,10 +55,8 @@ def pdf_2_png():
         else:
             print("[Error]: File not found")
     except FileExistsError:
-        print(FILE_EXISTS_ERROR)
-#--------------------------------------------------------------------------------------------------#
-# Menu.                                                                                            #
-#--------------------------------------------------------------------------------------------------#
+        raise FileExistsError
+# Menu.                                                                                            
 def menu():
     while True:
         try:
@@ -88,6 +72,6 @@ def menu():
                 case 3:
                     pdf_2_png()
                 case _:
-                    print(VALUE_ERROR)
+                    raise ValueError
         except ValueError:
-            print(VALUE_ERROR)
+            raise ValueError
