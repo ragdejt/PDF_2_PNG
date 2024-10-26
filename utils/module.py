@@ -5,8 +5,7 @@ import fitz
 from pathlib import Path
 from rich import print
 from tqdm import tqdm
-from utils.troubleshooting import DATE_TIME
-from utils.ascii_text import *
+from utils.Constants import *
 # Path's 
 user_path = Path.home()
 script_path = user_path / ("PDF_2_PNG")

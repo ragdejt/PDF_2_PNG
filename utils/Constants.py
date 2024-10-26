@@ -1,3 +1,5 @@
+DATE_TIME = """[%H:%M:%S] - [%d/%m/%Y]"""
+
 PDF_FOLDER = """
 [PDF folder]
 """
